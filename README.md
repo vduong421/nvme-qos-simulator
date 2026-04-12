@@ -1,5 +1,7 @@
 # NVMe QoS Simulator
 
+GitHub: https://github.com/vduong421/nvme-qos-simulator
+
 An advanced storage-system simulation project for studying SSD behavior under mixed datacenter workloads such as AI feature stores, vector retrieval, OLTP, and analytics scans, with validation-health overlays for execution visibility.
 
 ## Why It Matches The Role
