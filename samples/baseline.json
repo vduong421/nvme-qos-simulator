@@ -1,0 +1,50 @@
+{
+  "device": {
+    "name": "PCIe Gen5 TLC SSD",
+    "pcie_generation": 5,
+    "channels": 16,
+    "max_queue_depth": 256,
+    "overprovisioning_pct": 12,
+    "base_read_us": 82,
+    "base_write_us": 118,
+    "nand_write_penalty_us": 46
+  },
+  "workloads": [
+    {
+      "name": "AI Feature Store",
+      "read_ratio": 0.82,
+      "write_ratio": 0.18,
+      "block_kb": 16,
+      "queue_depth": 96,
+      "target_iops": 320000,
+      "burstiness": 1.25,
+      "test_coverage_pct": 88,
+      "pass_rate_pct": 98.4,
+      "dataset_freshness_hours": 10
+    },
+    {
+      "name": "OLTP",
+      "read_ratio": 0.68,
+      "write_ratio": 0.32,
+      "block_kb": 8,
+      "queue_depth": 64,
+      "target_iops": 180000,
+      "burstiness": 1.1,
+      "test_coverage_pct": 91,
+      "pass_rate_pct": 97.1,
+      "dataset_freshness_hours": 6
+    },
+    {
+      "name": "Analytics Scan",
+      "read_ratio": 0.95,
+      "write_ratio": 0.05,
+      "block_kb": 128,
+      "queue_depth": 48,
+      "target_iops": 42000,
+      "burstiness": 1.4,
+      "test_coverage_pct": 76,
+      "pass_rate_pct": 94.8,
+      "dataset_freshness_hours": 28
+    }
+  ]
+}
