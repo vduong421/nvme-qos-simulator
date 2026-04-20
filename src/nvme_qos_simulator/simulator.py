@@ -44,10 +44,6 @@ def simulate_workload(device: DeviceProfile, workload: WorkloadProfile) -> Workl
         p95_us=round(p95, 2),
         p99_us=round(p99, 2),
         saturation=round(min(1.5, workload.target_iops / max(service_budget_iops, 1)), 3),
-        test_coverage_pct=workload.test_coverage_pct,
-        pass_rate_pct=workload.pass_rate_pct,
-        dataset_freshness_hours=workload.dataset_freshness_hours,
-        triage_label=_triage_label(p99, workload.test_coverage_pct, workload.pass_rate_pct),
     )
 
 
@@ -57,19 +53,12 @@ def simulate_scenario(device: DeviceProfile, workloads: list[WorkloadProfile]) -
     worst_p99 = max((result.p99_us for result in results), default=0.0)
     total_iops = sum(result.achieved_iops for result in results)
     total_bw = sum(result.bandwidth_gbps for result in results)
-    avg_coverage = sum(result.test_coverage_pct for result in results) / max(len(results), 1)
-    avg_pass_rate = sum(result.pass_rate_pct for result in results) / max(len(results), 1)
-    stalest_dataset = max((result.dataset_freshness_hours for result in results), default=0.0)
 
     recommendations: list[str] = []
     if worst_p99 > 900:
         recommendations.append("Reduce queue-depth hotspots or increase channels to improve tail latency.")
     if avg_saturation > 0.9:
         recommendations.append("Current traffic is near controller saturation; model a higher-channel design.")
-    if avg_coverage < 85:
-        recommendations.append("Expand regression coverage for low-coverage workloads before trusting the QoS trend line.")
-    if avg_pass_rate < 97:
-        recommendations.append("Investigate failing scenarios and generate an AI triage digest for the top latency regressions.")
     if device.overprovisioning_pct < 15:
         recommendations.append("Increase overprovisioning to reduce write-amplification and garbage-collection stalls.")
     if not recommendations:
@@ -82,30 +71,8 @@ def simulate_scenario(device: DeviceProfile, workloads: list[WorkloadProfile]) -
             "total_bandwidth_gbps": round(total_bw, 3),
             "average_saturation": round(avg_saturation, 3),
             "worst_case_p99_us": round(worst_p99, 2),
-            "validation_coverage_pct": round(avg_coverage, 1),
-            "pass_rate_pct": round(avg_pass_rate, 2),
-            "stalest_dataset_hours": round(stalest_dataset, 1),
         },
         "workloads": [result.__dict__ for result in results],
         "recommendations": recommendations,
-        "ai_triage_summary": _build_ai_triage_summary(results),
     }
 
-
-def _triage_label(p99: float, coverage_pct: float, pass_rate_pct: float) -> str:
-    if p99 > 900 or pass_rate_pct < 95:
-        return "Escalate"
-    if coverage_pct < 85 or p99 > 700:
-        return "Watch"
-    return "Healthy"
-
-
-def _build_ai_triage_summary(results: list[WorkloadResult]) -> str:
-    if not results:
-        return "No workloads available for triage."
-    hottest = max(results, key=lambda item: item.p99_us)
-    lowest_coverage = min(results, key=lambda item: item.test_coverage_pct)
-    return (
-        f"AI triage would start with {hottest.name} for latency analysis and {lowest_coverage.name} "
-        "for regression-expansion planning."
-    )

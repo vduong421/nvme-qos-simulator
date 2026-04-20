@@ -24,9 +24,6 @@ class WorkloadProfile:
     queue_depth: int
     target_iops: int
     burstiness: float
-    test_coverage_pct: float
-    pass_rate_pct: float
-    dataset_freshness_hours: float
 
 
 @dataclass(frozen=True)
@@ -38,7 +35,4 @@ class WorkloadResult:
     p95_us: float
     p99_us: float
     saturation: float
-    test_coverage_pct: float
-    pass_rate_pct: float
-    dataset_freshness_hours: float
-    triage_label: str
+

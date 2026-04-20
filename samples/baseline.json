@@ -17,10 +17,7 @@
       "block_kb": 16,
       "queue_depth": 96,
       "target_iops": 320000,
-      "burstiness": 1.25,
-      "test_coverage_pct": 88,
-      "pass_rate_pct": 98.4,
-      "dataset_freshness_hours": 10
+      "burstiness": 1.25
     },
     {
       "name": "OLTP",
@@ -29,10 +26,7 @@
       "block_kb": 8,
       "queue_depth": 64,
       "target_iops": 180000,
-      "burstiness": 1.1,
-      "test_coverage_pct": 91,
-      "pass_rate_pct": 97.1,
-      "dataset_freshness_hours": 6
+      "burstiness": 1.1
     },
     {
       "name": "Analytics Scan",
@@ -41,10 +35,8 @@
       "block_kb": 128,
       "queue_depth": 48,
       "target_iops": 42000,
-      "burstiness": 1.4,
-      "test_coverage_pct": 76,
-      "pass_rate_pct": 94.8,
-      "dataset_freshness_hours": 28
+      "burstiness": 1.4
     }
   ]
 }
+

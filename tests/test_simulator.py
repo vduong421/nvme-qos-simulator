@@ -12,10 +12,7 @@ class SimulatorTests(unittest.TestCase):
 
         self.assertIn("summary", result)
         self.assertIn("workloads", result)
-        self.assertIn("ai_triage_summary", result)
         self.assertEqual(len(result["workloads"]), 3)
-        self.assertIn("validation_coverage_pct", result["summary"])
-        self.assertIn("triage_label", result["workloads"][0])
         self.assertGreater(
             result["summary"]["worst_case_p99_us"],
             result["workloads"][0]["p50_us"],

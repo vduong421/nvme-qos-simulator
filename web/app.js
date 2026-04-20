@@ -36,7 +36,6 @@ function workloadCard(item) {
       <div class="mini">Achieved IOPS: ${formatNumber(item.achieved_iops)}</div>
       <div class="mini">Bandwidth: ${item.bandwidth_gbps} Gbps</div>
       <div class="mini">Latency: p50 ${item.p50_us} us, p95 ${item.p95_us} us, p99 ${item.p99_us} us</div>
-      <div class="mini">Coverage: ${item.test_coverage_pct}% | Pass rate: ${item.pass_rate_pct}% | Triage: ${item.triage_label}</div>
       <div class="bar"><span style="width:${saturationPct}%"></span></div>
       <div class="mini">Saturation: ${saturationPct.toFixed(1)}%</div>
     </article>
@@ -65,14 +64,12 @@ function detailCard(label, value) {
 function buildInsights(data) {
   const worst = data.workloads.reduce((max, item) => (item.p99_us > max.p99_us ? item : max), data.workloads[0]);
   const busiest = data.workloads.reduce((max, item) => (item.saturation > max.saturation ? item : max), data.workloads[0]);
-  const weakestCoverage = data.workloads.reduce((min, item) => (item.test_coverage_pct < min.test_coverage_pct ? item : min), data.workloads[0]);
   const qosClass = data.summary.worst_case_p99_us < 500 ? "Healthy QoS envelope" : "Tail-latency risk emerging";
 
   insightList.innerHTML = [
     insightCard("Hotspot Workload", worst.name, `Highest p99 latency at ${worst.p99_us} us`),
     insightCard("Most Saturated Path", busiest.name, `Controller utilization at ${(busiest.saturation * 100).toFixed(1)}%`),
-    insightCard("Coverage Gap", weakestCoverage.name, `Lowest validation coverage at ${weakestCoverage.test_coverage_pct}%`),
-    insightCard("QoS Assessment", qosClass, data.ai_triage_summary),
+    insightCard("QoS Assessment", qosClass, "Derived from the current worst-case p99 profile"),
   ].join("");
 }
 
@@ -98,8 +95,6 @@ function buildTable(workloads) {
           <td>${item.p95_us} us</td>
           <td>${item.p99_us} us</td>
           <td>${(item.saturation * 100).toFixed(1)}%</td>
-          <td>${item.test_coverage_pct}%</td>
-          <td>${item.triage_label}</td>
         </tr>
       `,
     )
@@ -122,19 +117,13 @@ async function runScenario() {
       statCard("Total Bandwidth", `${data.summary.total_bandwidth_gbps} Gbps`, "Estimated delivered bandwidth", "Helps frame fabric and host-path impact"),
       statCard("Average Saturation", `${(data.summary.average_saturation * 100).toFixed(1)}%`, "Controller pressure indicator", data.summary.average_saturation > 0.85 ? "Near saturation" : "Operating with headroom"),
       statCard("Worst-Case p99", `${data.summary.worst_case_p99_us} us`, "Tail-latency bound", data.summary.worst_case_p99_us > 700 ? "Needs mitigation" : "Within expected range"),
-      statCard("Validation Coverage", `${data.summary.validation_coverage_pct}%`, "Regression visibility across workloads", data.summary.validation_coverage_pct < 85 ? "Coverage gap" : "Coverage healthy"),
-      statCard("Pass Rate", `${data.summary.pass_rate_pct}%`, "Recent execution success", data.summary.pass_rate_pct < 97 ? "Triage failures" : "Execution stable"),
-      statCard("Stalest Dataset", `${data.summary.stalest_dataset_hours} hrs`, "Oldest workload evidence in the suite", data.summary.stalest_dataset_hours > 24 ? "Refresh scenario" : "Data current"),
     ].join("");
 
     workloadGrid.innerHTML = data.workloads.map(workloadCard).join("");
     buildTable(data.workloads);
     buildInsights(data);
     buildDeviceDetails(data.device);
-    recommendations.innerHTML = [
-      `<li>${data.ai_triage_summary}</li>`,
-      ...data.recommendations.map((item) => `<li>${item}</li>`),
-    ].join("");
+    recommendations.innerHTML = data.recommendations.map((item) => `<li>${item}</li>`).join("");
 
     setStatus("Completed", "success");
     lastUpdated.textContent = `Updated ${new Date().toLocaleTimeString()}`;
