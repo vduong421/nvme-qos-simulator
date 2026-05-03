@@ -1,52 +1,58 @@
 # NVMe QoS Simulator
 
-An advanced storage-system simulation project for studying SSD behavior under mixed datacenter workloads such as AI feature stores, vector retrieval, OLTP, and analytics scans.
+NVMe QoS Simulator is a local storage-performance tool that models queue depth, workload mix, latency pressure, and QoS tradeoffs for NVMe/SSD systems.
 
-## Why It Matches The Role
+It combines deterministic simulation with a local AI analyst so users can ask why a workload is hitting tail-latency risk and what tuning action should be tested next.
 
-- Models PCIe, NVMe, NAND, queue depth, and garbage collection effects
-- Focuses on system-level behavior across diverse workloads
-- Produces outputs useful for customer technical reviews and roadmap conversations
+## What It Does
 
-## Features
+- Loads baseline storage workload parameters.
+- Simulates read/write pressure, queue depth, latency, throughput, and saturation signals.
+- Produces structured QoS metrics for review.
+- Displays simulation results in a browser UI.
+- Adds AI explanation and chat for workload tuning.
 
-- Multi-workload simulation with mixed read/write traffic
-- Tail-latency estimation for `p50`, `p95`, and `p99`
-- Queue pressure and NAND backend penalties
-- Simple recommendation engine for tuning architecture knobs
+## AI Features
+
+- Local AI analyst explains tail-latency and saturation behavior.
+- AI chat answers questions about queue depth, mixed workloads, and tuning tradeoffs.
+- AI recommendations are grounded in deterministic simulation output.
+- Browser UI shows metrics and AI guidance together.
+
+## Architecture
+
+```text
+Workload parameters
+      |
+      v
+NVMe simulator -> latency / throughput / saturation metrics
+      |
+      v
+Local AI analyst / chat -> tuning explanation + next experiment
+      |
+      v
+Browser dashboard
+```
 
 ## Run
 
 ```powershell
-python -m src.nvme_qos_simulator.cli --scenario samples\baseline.json
+run.bat
 ```
 
-## Web Dashboard
+## Local AI Setup
 
-```powershell
-python server.py
-```
+Use LM Studio or another OpenAI-compatible local server with a small model such as `google/gemma-4-e4b`.
 
-Then open `http://127.0.0.1:8001`.
+The simulator runs without AI; AI adds explanation and recommendation.
 
-## Example Output
+## Main Files
 
-- Aggregate IOPS and bandwidth
-- Estimated latency percentiles
-- Queue-utilization summary
-- Recommendations for channel count, queue depth, and overprovisioning
+- `src/nvme_qos_simulator/simulator.py` - deterministic simulation logic.
+- `server.py` - local API and AI chat route.
+- `web/` - browser UI.
+- `samples/baseline.json` - sample workload input.
 
-## Project Workbench
+## Output
 
-Launch the production-style desktop workbench with:
-
-```powershell
-launch-workbench.bat
-```
-
-What it adds:
-
-- Local-first AI copilot using `google/gemma-4-e4b` by default
-- Operator-focused workbench for reviewing real project inputs and outputs
-- System design, production-impact, and operational brief generation on demand
-- Grounded responses based on this project's README, sample files, and deterministic outputs
+The app reports simulated QoS metrics, latency pressure, saturation signals, AI analyst notes, and tuning recommendations.
