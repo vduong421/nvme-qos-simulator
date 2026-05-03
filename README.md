@@ -2,6 +2,10 @@
 
 NVMe QoS Simulator is a local storage-performance tool that models queue depth, workload mix, latency pressure, and QoS tradeoffs for NVMe/SSD systems.
 
+## Product Screenshot
+
+![Product screenshot](assets/product-screenshot.png)
+
 It combines deterministic simulation with a local AI analyst so users can ask why a workload is hitting tail-latency risk and what tuning action should be tested next.
 
 ## What It Does
