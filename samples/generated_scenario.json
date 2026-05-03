@@ -1,0 +1,554 @@
+{
+  "device": {
+    "name": "PCIe Gen5 TLC SSD",
+    "pcie_generation": 5,
+    "channels": 16,
+    "max_queue_depth": 256,
+    "overprovisioning_pct": 12,
+    "base_read_us": 82,
+    "base_write_us": 118,
+    "nand_write_penalty_us": 46
+  },
+  "workloads": [
+    {
+      "name": "Vector Retrieval 01",
+      "read_ratio": 0.84,
+      "write_ratio": 0.16,
+      "block_kb": 32,
+      "queue_depth": 48,
+      "target_iops": 153393,
+      "burstiness": 1.17
+    },
+    {
+      "name": "Vector Retrieval 02",
+      "read_ratio": 0.92,
+      "write_ratio": 0.08,
+      "block_kb": 32,
+      "queue_depth": 96,
+      "target_iops": 70580,
+      "burstiness": 1.44
+    },
+    {
+      "name": "AI Feature Store 03",
+      "read_ratio": 0.76,
+      "write_ratio": 0.24,
+      "block_kb": 16,
+      "queue_depth": 32,
+      "target_iops": 146981,
+      "burstiness": 1.38
+    },
+    {
+      "name": "AI Feature Store 04",
+      "read_ratio": 0.83,
+      "write_ratio": 0.17,
+      "block_kb": 16,
+      "queue_depth": 128,
+      "target_iops": 310706,
+      "burstiness": 1.31
+    },
+    {
+      "name": "Model Serving Cache 05",
+      "read_ratio": 0.89,
+      "write_ratio": 0.11,
+      "block_kb": 16,
+      "queue_depth": 192,
+      "target_iops": 28407,
+      "burstiness": 1.57
+    },
+    {
+      "name": "OLTP 06",
+      "read_ratio": 0.7,
+      "write_ratio": 0.3,
+      "block_kb": 8,
+      "queue_depth": 48,
+      "target_iops": 170684,
+      "burstiness": 1.12
+    },
+    {
+      "name": "Metadata Service 07",
+      "read_ratio": 0.7,
+      "write_ratio": 0.3,
+      "block_kb": 4,
+      "queue_depth": 64,
+      "target_iops": 75707,
+      "burstiness": 1.27
+    },
+    {
+      "name": "Metadata Service 08",
+      "read_ratio": 0.76,
+      "write_ratio": 0.24,
+      "block_kb": 4,
+      "queue_depth": 192,
+      "target_iops": 47780,
+      "burstiness": 1.55
+    },
+    {
+      "name": "Vector Retrieval 09",
+      "read_ratio": 0.96,
+      "write_ratio": 0.04,
+      "block_kb": 32,
+      "queue_depth": 64,
+      "target_iops": 66313,
+      "burstiness": 1.41
+    },
+    {
+      "name": "Metadata Service 10",
+      "read_ratio": 0.76,
+      "write_ratio": 0.24,
+      "block_kb": 4,
+      "queue_depth": 128,
+      "target_iops": 61466,
+      "burstiness": 1.03
+    },
+    {
+      "name": "Analytics Scan 11",
+      "read_ratio": 0.98,
+      "write_ratio": 0.02,
+      "block_kb": 128,
+      "queue_depth": 16,
+      "target_iops": 147049,
+      "burstiness": 1.65
+    },
+    {
+      "name": "RAG Index Build 12",
+      "read_ratio": 0.52,
+      "write_ratio": 0.48,
+      "block_kb": 32,
+      "queue_depth": 128,
+      "target_iops": 216277,
+      "burstiness": 1.12
+    },
+    {
+      "name": "Metadata Service 13",
+      "read_ratio": 0.72,
+      "write_ratio": 0.28,
+      "block_kb": 4,
+      "queue_depth": 48,
+      "target_iops": 62435,
+      "burstiness": 1.46
+    },
+    {
+      "name": "OLTP 14",
+      "read_ratio": 0.68,
+      "write_ratio": 0.32,
+      "block_kb": 8,
+      "queue_depth": 32,
+      "target_iops": 110669,
+      "burstiness": 1.35
+    },
+    {
+      "name": "Checkpoint Writer 15",
+      "read_ratio": 0.36,
+      "write_ratio": 0.64,
+      "block_kb": 64,
+      "queue_depth": 128,
+      "target_iops": 317002,
+      "burstiness": 1.16
+    },
+    {
+      "name": "Metadata Service 16",
+      "read_ratio": 0.79,
+      "write_ratio": 0.21,
+      "block_kb": 4,
+      "queue_depth": 192,
+      "target_iops": 54327,
+      "burstiness": 1.17
+    },
+    {
+      "name": "AI Feature Store 17",
+      "read_ratio": 0.86,
+      "write_ratio": 0.14,
+      "block_kb": 16,
+      "queue_depth": 64,
+      "target_iops": 165373,
+      "burstiness": 1.05
+    },
+    {
+      "name": "Metadata Service 18",
+      "read_ratio": 0.72,
+      "write_ratio": 0.28,
+      "block_kb": 4,
+      "queue_depth": 64,
+      "target_iops": 232425,
+      "burstiness": 1.66
+    },
+    {
+      "name": "Model Serving Cache 19",
+      "read_ratio": 0.84,
+      "write_ratio": 0.16,
+      "block_kb": 16,
+      "queue_depth": 32,
+      "target_iops": 154303,
+      "burstiness": 1.56
+    },
+    {
+      "name": "Checkpoint Writer 20",
+      "read_ratio": 0.33,
+      "write_ratio": 0.67,
+      "block_kb": 64,
+      "queue_depth": 64,
+      "target_iops": 330939,
+      "burstiness": 1.3
+    },
+    {
+      "name": "Analytics Scan 21",
+      "read_ratio": 0.98,
+      "write_ratio": 0.02,
+      "block_kb": 128,
+      "queue_depth": 32,
+      "target_iops": 292138,
+      "burstiness": 1.37
+    },
+    {
+      "name": "AI Feature Store 22",
+      "read_ratio": 0.86,
+      "write_ratio": 0.14,
+      "block_kb": 16,
+      "queue_depth": 32,
+      "target_iops": 353962,
+      "burstiness": 1.12
+    },
+    {
+      "name": "RAG Index Build 23",
+      "read_ratio": 0.56,
+      "write_ratio": 0.44,
+      "block_kb": 32,
+      "queue_depth": 64,
+      "target_iops": 225078,
+      "burstiness": 1.45
+    },
+    {
+      "name": "Model Serving Cache 24",
+      "read_ratio": 0.88,
+      "write_ratio": 0.12,
+      "block_kb": 16,
+      "queue_depth": 96,
+      "target_iops": 31019,
+      "burstiness": 1.51
+    },
+    {
+      "name": "Vector Retrieval 25",
+      "read_ratio": 0.92,
+      "write_ratio": 0.08,
+      "block_kb": 32,
+      "queue_depth": 96,
+      "target_iops": 164893,
+      "burstiness": 1.58
+    },
+    {
+      "name": "Metadata Service 26",
+      "read_ratio": 0.7,
+      "write_ratio": 0.3,
+      "block_kb": 4,
+      "queue_depth": 64,
+      "target_iops": 107920,
+      "burstiness": 1.34
+    },
+    {
+      "name": "Checkpoint Writer 27",
+      "read_ratio": 0.36,
+      "write_ratio": 0.64,
+      "block_kb": 64,
+      "queue_depth": 192,
+      "target_iops": 118665,
+      "burstiness": 1.38
+    },
+    {
+      "name": "Vector Retrieval 28",
+      "read_ratio": 0.94,
+      "write_ratio": 0.06,
+      "block_kb": 32,
+      "queue_depth": 48,
+      "target_iops": 359993,
+      "burstiness": 1.38
+    },
+    {
+      "name": "Analytics Scan 29",
+      "read_ratio": 0.91,
+      "write_ratio": 0.09,
+      "block_kb": 128,
+      "queue_depth": 192,
+      "target_iops": 109698,
+      "burstiness": 1.4
+    },
+    {
+      "name": "AI Feature Store 30",
+      "read_ratio": 0.83,
+      "write_ratio": 0.17,
+      "block_kb": 16,
+      "queue_depth": 64,
+      "target_iops": 35211,
+      "burstiness": 1.08
+    },
+    {
+      "name": "Metadata Service 31",
+      "read_ratio": 0.8,
+      "write_ratio": 0.2,
+      "block_kb": 4,
+      "queue_depth": 192,
+      "target_iops": 186225,
+      "burstiness": 1.18
+    },
+    {
+      "name": "Analytics Scan 32",
+      "read_ratio": 0.98,
+      "write_ratio": 0.02,
+      "block_kb": 128,
+      "queue_depth": 16,
+      "target_iops": 69907,
+      "burstiness": 1.55
+    },
+    {
+      "name": "Vector Retrieval 33",
+      "read_ratio": 0.96,
+      "write_ratio": 0.04,
+      "block_kb": 32,
+      "queue_depth": 96,
+      "target_iops": 90934,
+      "burstiness": 1.1
+    },
+    {
+      "name": "Model Serving Cache 34",
+      "read_ratio": 0.93,
+      "write_ratio": 0.07,
+      "block_kb": 16,
+      "queue_depth": 32,
+      "target_iops": 163966,
+      "burstiness": 1.4
+    },
+    {
+      "name": "RAG Index Build 35",
+      "read_ratio": 0.61,
+      "write_ratio": 0.39,
+      "block_kb": 32,
+      "queue_depth": 96,
+      "target_iops": 130461,
+      "burstiness": 1.53
+    },
+    {
+      "name": "RAG Index Build 36",
+      "read_ratio": 0.61,
+      "write_ratio": 0.39,
+      "block_kb": 32,
+      "queue_depth": 128,
+      "target_iops": 220779,
+      "burstiness": 1.33
+    },
+    {
+      "name": "Model Serving Cache 37",
+      "read_ratio": 0.83,
+      "write_ratio": 0.17,
+      "block_kb": 16,
+      "queue_depth": 32,
+      "target_iops": 58568,
+      "burstiness": 1.25
+    },
+    {
+      "name": "Analytics Scan 38",
+      "read_ratio": 0.96,
+      "write_ratio": 0.04,
+      "block_kb": 128,
+      "queue_depth": 16,
+      "target_iops": 62220,
+      "burstiness": 1.53
+    },
+    {
+      "name": "AI Feature Store 39",
+      "read_ratio": 0.79,
+      "write_ratio": 0.21,
+      "block_kb": 16,
+      "queue_depth": 16,
+      "target_iops": 198239,
+      "burstiness": 1.05
+    },
+    {
+      "name": "Analytics Scan 40",
+      "read_ratio": 0.92,
+      "write_ratio": 0.08,
+      "block_kb": 128,
+      "queue_depth": 64,
+      "target_iops": 137321,
+      "burstiness": 1.4
+    },
+    {
+      "name": "Model Serving Cache 41",
+      "read_ratio": 0.85,
+      "write_ratio": 0.15,
+      "block_kb": 16,
+      "queue_depth": 64,
+      "target_iops": 238416,
+      "burstiness": 1.14
+    },
+    {
+      "name": "Vector Retrieval 42",
+      "read_ratio": 0.92,
+      "write_ratio": 0.08,
+      "block_kb": 32,
+      "queue_depth": 48,
+      "target_iops": 247077,
+      "burstiness": 1.31
+    },
+    {
+      "name": "AI Feature Store 43",
+      "read_ratio": 0.84,
+      "write_ratio": 0.16,
+      "block_kb": 16,
+      "queue_depth": 128,
+      "target_iops": 76599,
+      "burstiness": 1.05
+    },
+    {
+      "name": "Metadata Service 44",
+      "read_ratio": 0.79,
+      "write_ratio": 0.21,
+      "block_kb": 4,
+      "queue_depth": 16,
+      "target_iops": 155367,
+      "burstiness": 1.14
+    },
+    {
+      "name": "Model Serving Cache 45",
+      "read_ratio": 0.84,
+      "write_ratio": 0.16,
+      "block_kb": 16,
+      "queue_depth": 32,
+      "target_iops": 171037,
+      "burstiness": 1.35
+    },
+    {
+      "name": "Vector Retrieval 46",
+      "read_ratio": 0.89,
+      "write_ratio": 0.11,
+      "block_kb": 32,
+      "queue_depth": 192,
+      "target_iops": 313528,
+      "burstiness": 1.07
+    },
+    {
+      "name": "AI Feature Store 47",
+      "read_ratio": 0.88,
+      "write_ratio": 0.12,
+      "block_kb": 16,
+      "queue_depth": 192,
+      "target_iops": 148930,
+      "burstiness": 1.12
+    },
+    {
+      "name": "Model Serving Cache 48",
+      "read_ratio": 0.88,
+      "write_ratio": 0.12,
+      "block_kb": 16,
+      "queue_depth": 192,
+      "target_iops": 235260,
+      "burstiness": 1.68
+    },
+    {
+      "name": "OLTP 49",
+      "read_ratio": 0.67,
+      "write_ratio": 0.33,
+      "block_kb": 8,
+      "queue_depth": 64,
+      "target_iops": 164042,
+      "burstiness": 1.69
+    },
+    {
+      "name": "Model Serving Cache 50",
+      "read_ratio": 0.85,
+      "write_ratio": 0.15,
+      "block_kb": 16,
+      "queue_depth": 128,
+      "target_iops": 316382,
+      "burstiness": 1.5
+    },
+    {
+      "name": "Model Serving Cache 51",
+      "read_ratio": 0.84,
+      "write_ratio": 0.16,
+      "block_kb": 16,
+      "queue_depth": 48,
+      "target_iops": 139137,
+      "burstiness": 1.73
+    },
+    {
+      "name": "AI Feature Store 52",
+      "read_ratio": 0.85,
+      "write_ratio": 0.15,
+      "block_kb": 16,
+      "queue_depth": 16,
+      "target_iops": 51289,
+      "burstiness": 1.44
+    },
+    {
+      "name": "OLTP 53",
+      "read_ratio": 0.63,
+      "write_ratio": 0.37,
+      "block_kb": 8,
+      "queue_depth": 96,
+      "target_iops": 67001,
+      "burstiness": 1.64
+    },
+    {
+      "name": "Vector Retrieval 54",
+      "read_ratio": 0.91,
+      "write_ratio": 0.09,
+      "block_kb": 32,
+      "queue_depth": 128,
+      "target_iops": 148314,
+      "burstiness": 1.3
+    },
+    {
+      "name": "Analytics Scan 55",
+      "read_ratio": 0.96,
+      "write_ratio": 0.04,
+      "block_kb": 128,
+      "queue_depth": 16,
+      "target_iops": 349734,
+      "burstiness": 1.06
+    },
+    {
+      "name": "Metadata Service 56",
+      "read_ratio": 0.8,
+      "write_ratio": 0.2,
+      "block_kb": 4,
+      "queue_depth": 32,
+      "target_iops": 189722,
+      "burstiness": 1.18
+    },
+    {
+      "name": "RAG Index Build 57",
+      "read_ratio": 0.51,
+      "write_ratio": 0.49,
+      "block_kb": 32,
+      "queue_depth": 128,
+      "target_iops": 182284,
+      "burstiness": 1.34
+    },
+    {
+      "name": "Vector Retrieval 58",
+      "read_ratio": 0.84,
+      "write_ratio": 0.16,
+      "block_kb": 32,
+      "queue_depth": 96,
+      "target_iops": 320170,
+      "burstiness": 1.75
+    },
+    {
+      "name": "Vector Retrieval 59",
+      "read_ratio": 0.9,
+      "write_ratio": 0.1,
+      "block_kb": 32,
+      "queue_depth": 96,
+      "target_iops": 164041,
+      "burstiness": 1.1
+    },
+    {
+      "name": "Metadata Service 60",
+      "read_ratio": 0.8,
+      "write_ratio": 0.2,
+      "block_kb": 4,
+      "queue_depth": 32,
+      "target_iops": 218738,
+      "burstiness": 1.21
+    }
+  ]
+}

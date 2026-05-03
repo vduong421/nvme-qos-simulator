@@ -64,6 +64,43 @@ def simulate_scenario(device: DeviceProfile, workloads: list[WorkloadProfile]) -
     if not recommendations:
         recommendations.append("QoS headroom is healthy; validate with a burstier AI checkpointing workload.")
 
+    worst_latency = max(results, key=lambda item: item.p99_us, default=None)
+    most_saturated = max(results, key=lambda item: item.saturation, default=None)
+    highest_bandwidth = max(results, key=lambda item: item.bandwidth_gbps, default=None)
+
+    latency_buckets = {
+        "healthy_under_500us": sum(1 for item in results if item.p99_us < 500),
+        "watch_500_900us": sum(1 for item in results if 500 <= item.p99_us <= 900),
+        "risk_over_900us": sum(1 for item in results if item.p99_us > 900),
+    }
+
+    workload_ranking = sorted(
+        [result.__dict__ for result in results],
+        key=lambda item: (item["p99_us"], item["saturation"]),
+        reverse=True,
+    )
+
+    release_decision = "hold" if worst_p99 > 900 or avg_saturation > 0.9 else "ready"
+
+    ai_copilot = {
+        "result": f"Simulated {len(results)} NVMe workloads with worst p99 latency {round(worst_p99, 2)} us.",
+        "answer": "The deterministic simulator found queue pressure, channel pressure, and tail-latency risk across mixed workloads.",
+        "evidence": f"Average saturation={round(avg_saturation, 3)}, total IOPS={round(total_iops, 2)}, total bandwidth={round(total_bw, 3)} Gbps.",
+        "next_action": "Review the highest p99 and highest saturation workloads first.",
+        "recommendation": recommendations[0] if recommendations else "QoS headroom is healthy.",
+        "decision": "Hold design review until tail-latency hotspots are mitigated." if release_decision == "hold" else "Proceed with current baseline and validate with burstier workloads.",
+        "risks": [
+            f"Worst latency workload: {worst_latency.name if worst_latency else 'n/a'}",
+            f"Most saturated workload: {most_saturated.name if most_saturated else 'n/a'}",
+            f"Risk bucket count: {latency_buckets['risk_over_900us']}"
+        ],
+        "operator_actions": [
+            "Tune queue depth for tail-latency hotspots",
+            "Increase channels if saturation remains high",
+            "Increase overprovisioning for write-heavy workloads"
+        ]
+    }
+
     return {
         "device": device.__dict__,
         "summary": {
@@ -71,8 +108,15 @@ def simulate_scenario(device: DeviceProfile, workloads: list[WorkloadProfile]) -
             "total_bandwidth_gbps": round(total_bw, 3),
             "average_saturation": round(avg_saturation, 3),
             "worst_case_p99_us": round(worst_p99, 2),
+            "release_decision": release_decision,
+            "latency_buckets": latency_buckets,
+            "worst_latency_workload": worst_latency.__dict__ if worst_latency else {},
+            "most_saturated_workload": most_saturated.__dict__ if most_saturated else {},
+            "highest_bandwidth_workload": highest_bandwidth.__dict__ if highest_bandwidth else {},
         },
         "workloads": [result.__dict__ for result in results],
+        "workload_ranking": workload_ranking[:15],
         "recommendations": recommendations,
+        "ai_copilot": ai_copilot,
     }
 

@@ -25,6 +25,33 @@
         </div>
       </section>
 
+      <section class="panel ai-panel">
+        <div class="panel-head">
+          <h2>Local AI Analyst</h2>
+          <p>Grounded in deterministic NVMe QoS simulation output</p>
+        </div>
+        <div id="aiAnalyst" class="ai-readout"></div>
+      </section>
+
+      <section class="panel ai-panel">
+        <div class="panel-head">
+          <h2>Ask Local AI</h2>
+          <p>Ask technical questions about latency, saturation, IOPS, and tuning decisions</p>
+        </div>
+        <div class="chat-row">
+          <input id="chatInput" placeholder="Ask about p99 latency, saturation, bandwidth, or recommendations..." />
+          <button id="askButton">Ask</button>
+        </div>
+        <div class="prompt-row">
+          <button class="secondary" data-q="What are the top tail-latency risks?">Top Risks</button>
+          <button class="secondary" data-q="Which workload is most saturated and why?">Saturation</button>
+          <button class="secondary" data-q="What should I tune to improve QoS?">Recommended Actions</button>
+          <button class="secondary" data-q="Is this SSD design ready for customer review?">Design Decision</button>
+        </div>
+        <div id="chatStatus" class="chat-status"></div>
+        <div id="chatAnswer" class="chat-answer"></div>
+      </section>
+
       <section class="summary-grid" id="summaryGrid"></section>
 
       <section class="panel split">
@@ -41,6 +68,27 @@
             <p>Modeled SSD profile</p>
           </div>
           <div id="deviceDetails" class="device-details"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>QoS Visuals</h2>
+          <p>Charts built from deterministic workload simulation data</p>
+        </div>
+        <div class="chart-grid">
+          <div>
+            <h3>p99 Latency Ranking</h3>
+            <div id="latencyChart"></div>
+          </div>
+          <div>
+            <h3>Saturation Ranking</h3>
+            <div id="saturationChart"></div>
+          </div>
+          <div>
+            <h3>Bandwidth Ranking</h3>
+            <div id="bandwidthChart"></div>
+          </div>
         </div>
       </section>
 

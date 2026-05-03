@@ -7,6 +7,14 @@ const deviceDetails = document.getElementById("deviceDetails");
 const runButton = document.getElementById("runButton");
 const runStatus = document.getElementById("runStatus");
 const lastUpdated = document.getElementById("lastUpdated");
+const aiAnalyst = document.getElementById("aiAnalyst");
+const chatInput = document.getElementById("chatInput");
+const askButton = document.getElementById("askButton");
+const chatStatus = document.getElementById("chatStatus");
+const chatAnswer = document.getElementById("chatAnswer");
+const latencyChart = document.getElementById("latencyChart");
+const saturationChart = document.getElementById("saturationChart");
+const bandwidthChart = document.getElementById("bandwidthChart");
 
 function formatNumber(value) {
   return Number(value).toLocaleString(undefined, { maximumFractionDigits: 2 });
@@ -83,6 +91,32 @@ function buildDeviceDetails(device) {
   ].join("");
 }
 
+function renderChart(target, items, field, suffix) {
+  const top = [...items].sort((a, b) => b[field] - a[field]).slice(0, 8);
+  const max = Math.max(...top.map((item) => item[field]), 1);
+  target.innerHTML = top
+    .map((item) => `
+      <div class="chart-bar">
+        <div>${item.name}</div>
+        <div class="chart-track"><div class="chart-fill" style="width:${(item[field] / max) * 100}%"></div></div>
+        <div>${formatNumber(item[field])}${suffix}</div>
+      </div>
+    `)
+    .join("");
+}
+
+function renderAiAnalyst(data) {
+  const ai = data.ai_copilot || {};
+  aiAnalyst.innerHTML = `
+    <b>Result:</b> ${ai.result || "NVMe QoS simulation complete."}<br><br>
+    <b>Answer:</b> ${ai.answer || "Deterministic simulator generated workload-level QoS signals."}<br><br>
+    <b>Evidence:</b> ${ai.evidence || "Uses achieved IOPS, bandwidth, saturation, and latency percentiles."}<br><br>
+    <b>Next Action:</b> ${ai.next_action || "Review top p99 and saturation hotspots."}<br><br>
+    <b>Recommendation:</b> ${ai.recommendation || data.recommendations[0] || "Tune queue depth and channels."}<br><br>
+    <b>Decision:</b> ${ai.decision || "Use simulation results for design review."}
+  `;
+}
+
 function buildTable(workloads) {
   workloadTableBody.innerHTML = workloads
     .map(
@@ -119,10 +153,14 @@ async function runScenario() {
       statCard("Worst-Case p99", `${data.summary.worst_case_p99_us} us`, "Tail-latency bound", data.summary.worst_case_p99_us > 700 ? "Needs mitigation" : "Within expected range"),
     ].join("");
 
-    workloadGrid.innerHTML = data.workloads.map(workloadCard).join("");
+    renderAiAnalyst(data);
+    workloadGrid.innerHTML = data.workloads.slice(0, 12).map(workloadCard).join("");
     buildTable(data.workloads);
     buildInsights(data);
     buildDeviceDetails(data.device);
+    renderChart(latencyChart, data.workloads, "p99_us", " us");
+    renderChart(saturationChart, data.workloads, "saturation", "");
+    renderChart(bandwidthChart, data.workloads, "bandwidth_gbps", " Gbps");
     recommendations.innerHTML = data.recommendations.map((item) => `<li>${item}</li>`).join("");
 
     setStatus("Completed", "success");
@@ -135,5 +173,42 @@ async function runScenario() {
   }
 }
 
+async function askLocalAi() {
+  const q = chatInput.value.trim();
+  if (!q) {
+    chatAnswer.textContent = "Enter a question.";
+    return;
+  }
+
+  chatStatus.textContent = "Running Local AI...";
+  chatStatus.style.color = "var(--warn)";
+  chatAnswer.innerHTML = "";
+
+  try {
+    const response = await fetch(`/api/chat?q=${encodeURIComponent(q)}`);
+    const data = await response.json();
+    chatStatus.textContent = "Local AI Finished";
+    chatStatus.style.color = "var(--good)";
+    chatAnswer.innerHTML = `
+      <b>Answer:</b> ${data.answer}<br><br>
+      <b>Evidence:</b> ${data.evidence}<br><br>
+      <b>Next Action:</b> ${data.next_action}<br><br>
+      <b>Recommendation:</b> ${data.recommendation}<br><br>
+      <b>Decision:</b> ${data.decision}
+    `;
+  } catch (error) {
+    chatStatus.textContent = "Local AI Failed";
+    chatStatus.style.color = "var(--bad)";
+    chatAnswer.textContent = "Fallback failed to load. Run the server again.";
+  }
+}
+
+document.querySelectorAll("[data-q]").forEach((button) => {
+  button.addEventListener("click", () => {
+    chatInput.value = button.dataset.q;
+  });
+});
+
+askButton.addEventListener("click", askLocalAi);
 runButton.addEventListener("click", runScenario);
 runScenario();

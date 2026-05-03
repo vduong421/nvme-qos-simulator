@@ -88,6 +88,18 @@ button {
   cursor: pointer;
 }
 
+button.secondary {
+  color: var(--text);
+  background: rgba(87, 193, 245, 0.1);
+  border: 1px solid var(--line-strong);
+}
+
+button.secondary {
+  color: var(--text);
+  background: rgba(87, 193, 245, 0.1);
+  border: 1px solid var(--line-strong);
+}
+
 .status-wrap {
   display: flex;
   gap: 10px;
@@ -224,6 +236,148 @@ td { color: var(--text); }
 
 .accent { border-color: rgba(242, 163, 94, 0.28); }
 
+.ai-panel {
+  border-color: rgba(87, 193, 245, 0.35);
+}
+
+.ai-readout,
+.chat-answer {
+  line-height: 1.6;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+}
+
+.chat-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.chat-row input {
+  flex: 1;
+  min-width: 320px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: 15px;
+}
+
+.prompt-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.chat-status {
+  color: var(--warn);
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.chart-bar {
+  display: grid;
+  grid-template-columns: 160px 1fr 70px;
+  align-items: center;
+  gap: 10px;
+  margin: 9px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.chart-track {
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.chart-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent));
+}
+
+.ai-panel {
+  border-color: rgba(87, 193, 245, 0.35);
+}
+
+.ai-readout,
+.chat-answer {
+  line-height: 1.6;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+}
+
+.chat-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.chat-row input {
+  flex: 1;
+  min-width: 320px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: 15px;
+}
+
+.prompt-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.chat-status {
+  color: var(--warn);
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.chart-bar {
+  display: grid;
+  grid-template-columns: 160px 1fr 70px;
+  align-items: center;
+  gap: 10px;
+  margin: 9px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.chart-track {
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.chart-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent));
+}
+
 @media (max-width: 860px) {
   .hero,
   .panel-head {
@@ -236,4 +390,6 @@ td { color: var(--text); }
   }
 
   .split { grid-template-columns: 1fr; }
+  .chart-grid { grid-template-columns: 1fr; }
+  .chart-grid { grid-template-columns: 1fr; }
 }
